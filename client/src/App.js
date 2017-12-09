@@ -9,9 +9,8 @@ class App extends Component {
   state = {songs:[]}
 
   componentDidMount() {
-    fetch('/api/songs')
-      .then( res => res.json() )
-      .then( songs => this.setState({ songs }) )
+    axios.get('/api/songs')
+      .then( res => this.setState({ songs: res.data }) )
   }
 
   addSong = (newSong) => {
@@ -23,13 +22,31 @@ class App extends Component {
   }
 
   deleteSong = (id) => {
-    alert("Delete Song?")
+    window.confirm("Delete Song?")
     axios.delete(`/api/songs/${id}`)
     .then( () => {
       const { songs } = this.state;
       this.setState({ songs: songs.filter( s => s.id !== id ) })
     })
   }
+
+  updateSong = (song) => {
+    axios.put(`/api/songs/${song.id}`, song)
+    .then( res => {
+      let songs = this.state.songs.map( s => {
+        if (s.id === song.id)
+          return res.data;
+        return s;
+      })
+      this.setState({ songs })
+      //this.setState({ songs: [res.data, ...songs]})
+    })
+    .catch(err => {
+      console.log(err)
+    }) 
+
+  }
+
 
   render() {
     return (
@@ -40,11 +57,12 @@ class App extends Component {
             <a href="home" className="brand-logo center">React Rails - Billboard Top 100</a>
           </nav>
         </header> 
-      <main className="container center" >
+      <main className="container" >
         <SongForm addSong={this.addSong}/> 
         <SongList className="col s12" 
               songs={this.state.songs}
-              deleteSong={this.deleteSong}/>
+              deleteSong={this.deleteSong}
+              updateSong={this.updateSong}/>
         </main>
         </section> 
        </div> 

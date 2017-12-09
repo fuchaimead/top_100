@@ -15,8 +15,11 @@ class Api::SongsController < ApplicationController
   end
 
   def update
-    @song.update
+    if @song.update(song_params)
     render json: @song
+    else
+      render json: error
+    end
   end
 
   def destroy

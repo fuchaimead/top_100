@@ -1,7 +1,7 @@
 import React from 'react'
 import Song from './Song';
 
-const SongList = ({ songs, deleteSong }) => (
+const SongList = ({ songs, deleteSong, updateSong }) => (
   <div>
     { songs.map( s => {
       return(
@@ -9,6 +9,7 @@ const SongList = ({ songs, deleteSong }) => (
           key={s.id}
           {...s}
           deleteSong={deleteSong}
+          updateSong={updateSong}
         />
       )
     })}
