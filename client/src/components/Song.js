@@ -37,8 +37,8 @@ class Song extends Component {
         <form onSubmit={this.handleSubmit}>
           <input name="title" value={this.state.title} onChange={this.handleChange}/>
           <input name="artist" value={this.state.artist} onChange={this.handleChange}/>
-          <button type="submit"> Submit </button>
-          <button onClick={this.editSong}> Cancel </button>
+          <button type="submit" className="btn"> Submit </button>
+          <button onClick={this.editSong} className="btn"> Cancel </button>
         </form>
       )
     }
